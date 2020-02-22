@@ -14,6 +14,7 @@ namespace Persistence
         public DbSet<Value> Values { get; set; }
         public DbSet<Person> People { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Points> EarnedPoints { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

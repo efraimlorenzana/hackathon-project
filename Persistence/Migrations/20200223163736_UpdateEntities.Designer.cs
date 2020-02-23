@@ -9,7 +9,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200223122031_UpdateEntities")]
+    [Migration("20200223163736_UpdateEntities")]
     partial class UpdateEntities
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -172,6 +172,34 @@ namespace Persistence.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("Domain.ProductReview", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Comments")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Customer")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductReview");
+                });
+
             modelBuilder.Entity("Domain.PurchasedItem", b =>
                 {
                     b.Property<Guid>("Id")
@@ -294,15 +322,15 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e613f272-8f2d-4b4a-80da-f4c49e611643",
-                            ConcurrencyStamp = "d986ad3f-ab5b-4d43-94b2-8c6b0365d26d",
+                            Id = "069d4195-f1ba-4902-9fbf-7878637d9564",
+                            ConcurrencyStamp = "2e813b1b-9436-4477-8680-068c9a10969a",
                             Name = "Retailer",
                             NormalizedName = "RETAILER"
                         },
                         new
                         {
-                            Id = "329364aa-bda2-4788-b7b0-19e284a1035f",
-                            ConcurrencyStamp = "e238305b-1e0e-4b84-ae18-ffec23a7436d",
+                            Id = "ac4e1a53-3bdf-42a3-ba7e-8454a2d0b918",
+                            ConcurrencyStamp = "eed66690-2d00-4ed3-a027-ef4c5512b3e5",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });
@@ -426,6 +454,13 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser", null)
                         .WithMany("EarnedPoints")
                         .HasForeignKey("AppUserId");
+                });
+
+            modelBuilder.Entity("Domain.ProductReview", b =>
+                {
+                    b.HasOne("Domain.Product", null)
+                        .WithMany("Reviews")
+                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("Domain.PurchasedItem", b =>

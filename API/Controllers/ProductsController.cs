@@ -30,5 +30,12 @@ namespace API.Controllers
         {
             return await Mediator.Send(command);
         }
+
+        [HttpPost("review")]
+        [Authorize(Policy = "Customer")]
+        public async Task<ActionResult<Unit>> Review(Review.Command command)
+        {
+            return await Mediator.Send(command);
+        }
     }
 }

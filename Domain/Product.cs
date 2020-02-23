@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Domain
 {
@@ -10,5 +11,6 @@ namespace Domain
         public double Price { get; set; }
         public int Points { get; set; }
         public bool IsAvailable { get; set; }
+        public virtual ICollection<ProductReview> Reviews { get; set; }
     }
 }

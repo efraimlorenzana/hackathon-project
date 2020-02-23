@@ -130,6 +130,28 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProductReview",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Comments = table.Column<string>(nullable: true),
+                    Rating = table.Column<int>(nullable: false),
+                    Customer = table.Column<string>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: false),
+                    ProductId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductReview", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductReview_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
@@ -266,12 +288,12 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "e613f272-8f2d-4b4a-80da-f4c49e611643", "d986ad3f-ab5b-4d43-94b2-8c6b0365d26d", "Retailer", "RETAILER" });
+                values: new object[] { "069d4195-f1ba-4902-9fbf-7878637d9564", "2e813b1b-9436-4477-8680-068c9a10969a", "Retailer", "RETAILER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "329364aa-bda2-4788-b7b0-19e284a1035f", "e238305b-1e0e-4b84-ae18-ffec23a7436d", "Customer", "CUSTOMER" });
+                values: new object[] { "ac4e1a53-3bdf-42a3-ba7e-8454a2d0b918", "eed66690-2d00-4ed3-a027-ef4c5512b3e5", "Customer", "CUSTOMER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -326,6 +348,11 @@ namespace Persistence.Migrations
                 column: "AppUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductReview_ProductId",
+                table: "ProductReview",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PurchasedItems_AppUserId",
                 table: "PurchasedItems",
                 column: "AppUserId");
@@ -355,6 +382,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "EarnedPoints");
+
+            migrationBuilder.DropTable(
+                name: "ProductReview");
 
             migrationBuilder.DropTable(
                 name: "PurchasedItems");

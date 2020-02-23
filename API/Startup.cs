@@ -72,8 +72,13 @@ namespace API
                 opt.AddPolicy("Retailer", policy => {
                     policy.Requirements.Add(new IsRetailer());
                 });
+
+                opt.AddPolicy("Customer", policy => {
+                    policy.Requirements.Add(new IsCustomer());
+                });
             });
-            services.AddTransient<IAuthorizationHandler, IsRequirementHandler>();
+            services.AddTransient<IAuthorizationHandler, IsRetailerRequirementHandler>();
+            services.AddTransient<IAuthorizationHandler, IsCustomerRequirementHandler>();
 
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();

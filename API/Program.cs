@@ -35,6 +35,7 @@ namespace API
                     context.Database.Migrate();
                     SeedUser.Initialize(context, userManager).Wait();
                     SeedProducts.Initialize(context).Wait();
+                    SeedVoucherCode.Initialize(context).Wait();
                 }
                 catch (Exception err)
                 {

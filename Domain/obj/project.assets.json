@@ -803,11 +803,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\efraim.a.lorenzana\\Documents\\OTHERS\\Hackathon\\February 2020\\hack4\\Domain\\Domain.csproj",
+      "projectUniqueName": "c:\\Users\\efraim.a.lorenzana\\Documents\\OTHERS\\Hackathon\\February 2020\\hack4\\Domain\\Domain.csproj",
       "projectName": "Domain",
-      "projectPath": "C:\\Users\\efraim.a.lorenzana\\Documents\\OTHERS\\Hackathon\\February 2020\\hack4\\Domain\\Domain.csproj",
+      "projectPath": "c:\\Users\\efraim.a.lorenzana\\Documents\\OTHERS\\Hackathon\\February 2020\\hack4\\Domain\\Domain.csproj",
       "packagesPath": "C:\\Users\\efraim.a.lorenzana\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\efraim.a.lorenzana\\Documents\\OTHERS\\Hackathon\\February 2020\\hack4\\Domain\\obj\\",
+      "outputPath": "c:\\Users\\efraim.a.lorenzana\\Documents\\OTHERS\\Hackathon\\February 2020\\hack4\\Domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\efraim.a.lorenzana\\AppData\\Roaming\\NuGet\\NuGet.Config"

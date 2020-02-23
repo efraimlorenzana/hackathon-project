@@ -1,30 +1,28 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Persistence;
 
 namespace Infrastructure.Security
 {
-    public class IsRetailer : IAuthorizationRequirement
+    public class IsCustomer : IAuthorizationRequirement
     {
-
+        
     }
 
-    public class IsRetailerRequirementHandler : AuthorizationHandler<IsRetailer>
+    public class IsCustomerRequirementHandler : AuthorizationHandler<IsCustomer>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly DataContext _context;
-        public IsRetailerRequirementHandler(DataContext context, IHttpContextAccessor httpContextAccessor)
+        public IsCustomerRequirementHandler(DataContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
         }
 
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsRetailer requirement)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsCustomer requirement)
         {
             var Username = _httpContextAccessor
                 .HttpContext.User?.Claims?
@@ -32,7 +30,7 @@ namespace Infrastructure.Security
 
             var user = _context.Users.SingleOrDefault(x => x.UserName == Username);
 
-            if(user != null && user.Role.Name == "Retailer")
+            if(user != null && user.Role.Name == "Customer")
                 context.Succeed(requirement);
 
             return Task.CompletedTask;

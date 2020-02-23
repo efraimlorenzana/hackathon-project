@@ -7111,11 +7111,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\efraim.a.lorenzana\\Documents\\OTHERS\\Hackathon\\February 2020\\hack4\\API\\API.csproj",
+      "projectUniqueName": "C:\\Users\\efraim.a.lorenzana\\Documents\\OTHERS\\Hackathon\\February 2020\\hack4\\api\\API.csproj",
       "projectName": "API",
-      "projectPath": "C:\\Users\\efraim.a.lorenzana\\Documents\\OTHERS\\Hackathon\\February 2020\\hack4\\API\\API.csproj",
+      "projectPath": "C:\\Users\\efraim.a.lorenzana\\Documents\\OTHERS\\Hackathon\\February 2020\\hack4\\api\\API.csproj",
       "packagesPath": "C:\\Users\\efraim.a.lorenzana\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\efraim.a.lorenzana\\Documents\\OTHERS\\Hackathon\\February 2020\\hack4\\API\\obj\\",
+      "outputPath": "C:\\Users\\efraim.a.lorenzana\\Documents\\OTHERS\\Hackathon\\February 2020\\hack4\\api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\efraim.a.lorenzana\\AppData\\Roaming\\NuGet\\NuGet.Config"

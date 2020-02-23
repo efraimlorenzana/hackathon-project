@@ -125,10 +125,10 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("DateEarned")
+                    b.Property<string>("AppUserId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("PersonId")
+                    b.Property<DateTime>("DateEarned")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Source")
@@ -139,7 +139,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PersonId");
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("EarnedPoints");
                 });
@@ -153,6 +153,9 @@ namespace Persistence.Migrations
                     b.Property<string>("Category")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
@@ -165,6 +168,36 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Domain.PurchasedItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DatePurchased")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ShippingAddress")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("isDelivered")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("PurchasedItems");
                 });
 
             modelBuilder.Entity("Domain.Value", b =>
@@ -208,6 +241,29 @@ namespace Persistence.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Domain.VoucherCode", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DateRedeem")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PointsValue")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("VoucherCodes");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -236,15 +292,15 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a66dd0c2-2007-4282-8aa6-ac78bb4a99c9",
-                            ConcurrencyStamp = "e4c5c6c0-d327-4e36-a4d8-fa29ffa43ac4",
+                            Id = "e613f272-8f2d-4b4a-80da-f4c49e611643",
+                            ConcurrencyStamp = "d986ad3f-ab5b-4d43-94b2-8c6b0365d26d",
                             Name = "Retailer",
                             NormalizedName = "RETAILER"
                         },
                         new
                         {
-                            Id = "15fcbcd2-4e69-465b-b4a6-52c25b2df285",
-                            ConcurrencyStamp = "c4977d22-7e30-4883-b106-571b25710ee4",
+                            Id = "329364aa-bda2-4788-b7b0-19e284a1035f",
+                            ConcurrencyStamp = "e238305b-1e0e-4b84-ae18-ffec23a7436d",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });
@@ -365,9 +421,20 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Points", b =>
                 {
-                    b.HasOne("Domain.Person", null)
+                    b.HasOne("Domain.AppUser", null)
                         .WithMany("EarnedPoints")
-                        .HasForeignKey("PersonId");
+                        .HasForeignKey("AppUserId");
+                });
+
+            modelBuilder.Entity("Domain.PurchasedItem", b =>
+                {
+                    b.HasOne("Domain.AppUser", null)
+                        .WithMany("PurchasedItems")
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("Domain.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

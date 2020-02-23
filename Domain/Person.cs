@@ -11,7 +11,6 @@ namespace Domain
         public string Middlename { get; set; }
         public Gender Gender { get; set; }
         public string Address { get; set; }
-        public virtual ICollection<Points> EarnedPoints { get; set; }
     }
 
     public enum Gender

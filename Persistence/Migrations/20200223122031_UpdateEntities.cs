@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class MigrateChanges : Migration
+    public partial class UpdateEntities : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -45,11 +45,27 @@ namespace Persistence.Migrations
                     Name = table.Column<string>(nullable: true),
                     Category = table.Column<string>(nullable: true),
                     Price = table.Column<double>(nullable: false),
-                    Points = table.Column<int>(nullable: false)
+                    Points = table.Column<int>(nullable: false),
+                    IsAvailable = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VoucherCodes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Code = table.Column<string>(nullable: true),
+                    PointsValue = table.Column<int>(nullable: false),
+                    DateRedeem = table.Column<DateTime>(nullable: true),
+                    IsValid = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VoucherCodes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -198,15 +214,64 @@ namespace Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "a0fc314a-bb58-4ce3-b479-2fc760220185", "e8bcaa1c-6d6b-4911-8245-2291445e7fa4", "Retailer", "RETAILER" });
+            migrationBuilder.CreateTable(
+                name: "EarnedPoints",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Value = table.Column<int>(nullable: false),
+                    Source = table.Column<string>(nullable: true),
+                    DateEarned = table.Column<DateTime>(nullable: false),
+                    AppUserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EarnedPoints", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EarnedPoints_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PurchasedItems",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ProductId = table.Column<Guid>(nullable: true),
+                    DatePurchased = table.Column<DateTime>(nullable: false),
+                    ShippingAddress = table.Column<string>(nullable: true),
+                    isDelivered = table.Column<bool>(nullable: false),
+                    AppUserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PurchasedItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PurchasedItems_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PurchasedItems_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "a914ca92-661b-48d4-bc28-43ca7d6c7f1e", "6f561a64-d2c4-4fa5-84e3-d5d6beda5912", "Customer", "CUSTOMER" });
+                values: new object[] { "e613f272-8f2d-4b4a-80da-f4c49e611643", "d986ad3f-ab5b-4d43-94b2-8c6b0365d26d", "Retailer", "RETAILER" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "329364aa-bda2-4788-b7b0-19e284a1035f", "e238305b-1e0e-4b84-ae18-ffec23a7436d", "Customer", "CUSTOMER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -254,6 +319,21 @@ namespace Persistence.Migrations
                 name: "IX_AspNetUsers_RoleId",
                 table: "AspNetUsers",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EarnedPoints_AppUserId",
+                table: "EarnedPoints",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PurchasedItems_AppUserId",
+                table: "PurchasedItems",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PurchasedItems_ProductId",
+                table: "PurchasedItems",
+                column: "ProductId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -274,10 +354,19 @@ namespace Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "EarnedPoints");
+
+            migrationBuilder.DropTable(
+                name: "PurchasedItems");
+
+            migrationBuilder.DropTable(
+                name: "VoucherCodes");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "People");

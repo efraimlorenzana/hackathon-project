@@ -119,6 +119,19 @@ namespace Persistence.Migrations
                     b.ToTable("People");
                 });
 
+            modelBuilder.Entity("Domain.Photo", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Photos");
+                });
+
             modelBuilder.Entity("Domain.Points", b =>
                 {
                     b.Property<Guid>("Id")
@@ -165,7 +178,12 @@ namespace Persistence.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("REAL");
 
+                    b.Property<string>("ThumbnailId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ThumbnailId");
 
                     b.ToTable("Products");
                 });
@@ -320,15 +338,15 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "069d4195-f1ba-4902-9fbf-7878637d9564",
-                            ConcurrencyStamp = "2e813b1b-9436-4477-8680-068c9a10969a",
+                            Id = "dab6a874-09ad-4f4a-83dc-73e91ea991df",
+                            ConcurrencyStamp = "4b981665-9a01-4471-90d2-d1a74f4d6b77",
                             Name = "Retailer",
                             NormalizedName = "RETAILER"
                         },
                         new
                         {
-                            Id = "ac4e1a53-3bdf-42a3-ba7e-8454a2d0b918",
-                            ConcurrencyStamp = "eed66690-2d00-4ed3-a027-ef4c5512b3e5",
+                            Id = "740a2574-be69-42aa-ae16-f85a7b913a17",
+                            ConcurrencyStamp = "63316306-a482-4129-9caf-958ea8934aa5",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });
@@ -452,6 +470,13 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser", null)
                         .WithMany("EarnedPoints")
                         .HasForeignKey("AppUserId");
+                });
+
+            modelBuilder.Entity("Domain.Product", b =>
+                {
+                    b.HasOne("Domain.Photo", "Thumbnail")
+                        .WithMany()
+                        .HasForeignKey("ThumbnailId");
                 });
 
             modelBuilder.Entity("Domain.ProductReview", b =>

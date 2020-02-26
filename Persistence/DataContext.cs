@@ -17,6 +17,7 @@ namespace Persistence
         public DbSet<Points> EarnedPoints { get; set; }
         public DbSet<VoucherCode> VoucherCodes { get; set; }
         public DbSet<PurchasedItem> PurchasedItems { get; set; }
+        public DbSet<Photo> Photos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -26,7 +26,7 @@ namespace API.Controllers
 
         [HttpPost("add")]
         [Authorize(Policy = "Retailer")]
-        public async Task<ActionResult<Unit>> Add(Add.Command command)
+        public async Task<ActionResult<Unit>> Add([FromForm]Add.Command command)
         {
             return await Mediator.Send(command);
         }

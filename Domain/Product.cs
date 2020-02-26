@@ -12,5 +12,6 @@ namespace Domain
         public int Points { get; set; }
         public bool IsAvailable { get; set; }
         public virtual ICollection<ProductReview> Reviews { get; set; }
+        public virtual Photo Thumbnail { get; set; }
     }
 }

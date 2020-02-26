@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class UpdateEntities : Migration
+    public partial class CreateDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -38,19 +38,28 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "Photos",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Category = table.Column<string>(nullable: true),
-                    Price = table.Column<double>(nullable: false),
-                    Points = table.Column<int>(nullable: false),
-                    IsAvailable = table.Column<bool>(nullable: false)
+                    Id = table.Column<string>(nullable: false),
+                    Url = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_Photos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Values",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Values", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -130,23 +139,24 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductReview",
+                name: "Products",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Comments = table.Column<string>(nullable: true),
-                    Rating = table.Column<int>(nullable: false),
-                    Customer = table.Column<string>(nullable: true),
-                    Date = table.Column<DateTime>(nullable: false),
-                    ProductId = table.Column<Guid>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Category = table.Column<string>(nullable: true),
+                    Price = table.Column<double>(nullable: false),
+                    Points = table.Column<int>(nullable: false),
+                    IsAvailable = table.Column<bool>(nullable: false),
+                    ThumbnailId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductReview", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductReview_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
+                        name: "FK_Products_Photos_ThumbnailId",
+                        column: x => x.ThumbnailId,
+                        principalTable: "Photos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -258,6 +268,28 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProductReview",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Comments = table.Column<string>(nullable: true),
+                    Rating = table.Column<int>(nullable: false),
+                    Customer = table.Column<string>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: false),
+                    ProductId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductReview", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductReview_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PurchasedItems",
                 columns: table => new
                 {
@@ -288,12 +320,37 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "069d4195-f1ba-4902-9fbf-7878637d9564", "2e813b1b-9436-4477-8680-068c9a10969a", "Retailer", "RETAILER" });
+                values: new object[] { "dab6a874-09ad-4f4a-83dc-73e91ea991df", "4b981665-9a01-4471-90d2-d1a74f4d6b77", "Retailer", "RETAILER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "ac4e1a53-3bdf-42a3-ba7e-8454a2d0b918", "eed66690-2d00-4ed3-a027-ef4c5512b3e5", "Customer", "CUSTOMER" });
+                values: new object[] { "740a2574-be69-42aa-ae16-f85a7b913a17", "63316306-a482-4129-9caf-958ea8934aa5", "Customer", "CUSTOMER" });
+
+            migrationBuilder.InsertData(
+                table: "Values",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1, "EM" });
+
+            migrationBuilder.InsertData(
+                table: "Values",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 2, "Chris" });
+
+            migrationBuilder.InsertData(
+                table: "Values",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 3, "Mel" });
+
+            migrationBuilder.InsertData(
+                table: "Values",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 4, "Regime" });
+
+            migrationBuilder.InsertData(
+                table: "Values",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 5, "Berni" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -353,6 +410,11 @@ namespace Persistence.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Products_ThumbnailId",
+                table: "Products",
+                column: "ThumbnailId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PurchasedItems_AppUserId",
                 table: "PurchasedItems",
                 column: "AppUserId");
@@ -390,6 +452,9 @@ namespace Persistence.Migrations
                 name: "PurchasedItems");
 
             migrationBuilder.DropTable(
+                name: "Values");
+
+            migrationBuilder.DropTable(
                 name: "VoucherCodes");
 
             migrationBuilder.DropTable(
@@ -403,6 +468,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Photos");
         }
     }
 }
